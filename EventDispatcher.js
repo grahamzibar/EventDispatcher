@@ -5,15 +5,15 @@
 	window.EventDispatcher = function EventDispatcher() {
 		var _id = SERIAL++;
 		var _events = {};
-	
+		
 		this.addEventListener = function(event, callback) {
 			var rry = _events[event];
 			if (!rry)
 				rry = _events[event] = new Array();
 			callback.EventDispatcher_ID[_id] = rry.length;
-			rry[callback.EventDispatcher_ID] = callback;
+			rry[callback.EventDispatcher_ID[_id]] = callback;
 		};
-	
+		
 		this.removeEventListener = function(event, callback) {
 			var _idee = _id;
 			var rry = _events[event];
@@ -22,9 +22,9 @@
 				return;
 			if (!rry[id])
 				return;
-	
+		
 			rry.splice(id, 1);
-	
+		
 			var length = rry.length;
 			if (!length) {
 				delete _events[event];
@@ -34,7 +34,7 @@
 			for (var i = 0; i < length; i++)
 				rry[i].EventDispatcher_ID[_idee] = i;
 		};
-	
+		
 		this.dispatchEvent = function(event, data, debug) {
 			var rry = _events[event];
 			if (!rry)
@@ -43,7 +43,7 @@
 			for (var i = 0; i < length; i++)
 				rry[i](data);
 		};
-	
+		
 		this.removeEventListeners = function(event) {
 			if (event)
 				delete _events[event];
